@@ -1,8 +1,6 @@
 using AutoMapper;
 using LearnApiWeb.Data;
 using LearnApiWeb.Dtos;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearnApiWeb.Repositories
@@ -35,7 +33,8 @@ namespace LearnApiWeb.Repositories
             Book newBook = _mapper.Map<Book>(book);
             _context.Books.Add(newBook);
             await _context.SaveChangesAsync();
-            return book.Id;
+            int newIdBook = await GetIdOfLastestBook();
+            return newIdBook;
         }
 
         public async Task UpdateBookAsync(int id, BookModel book)
@@ -62,7 +61,13 @@ namespace LearnApiWeb.Repositories
         public async Task<List<BookMinModel>> GetAllBooksMinAsync()
         {
             var books = await _context.Books.ToListAsync();
-            return _mapper.Map<List<BookMinModel>>(books); 
+            return _mapper.Map<List<BookMinModel>>(books);
+        }
+
+        public async Task<int> GetIdOfLastestBook()
+        {
+            var book = await _context.Books.OrderByDescending(b => b.Id).FirstOrDefaultAsync();
+            return book!.Id;
         }
     }
 }

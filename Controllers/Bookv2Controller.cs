@@ -57,12 +57,15 @@ namespace Namespace
         {
             try
             {
-                var newBookId = await _bookRepos.AddBookAsync(book);
-                return Ok(book);
+                // Cần lấy ra id sách vừa được thêm để trả về thông tin của sách vừa được thêm ở request body
+                int newId = await _bookRepos.AddBookAsync(book);
+                var newBook = await _bookRepos.GetBookAsync(newId);
+                // Nếu thêm mới thành công thì gọi phương thức CreatedAtAction
+                return CreatedAtAction("GetBookById", new { id = book.Id }, newBook);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -74,7 +77,7 @@ namespace Namespace
             // => Nên không cần điền
             if (id != book.Id)
             {
-                return NotFound();  
+                return NotFound();
             }
 
             await _bookRepos.UpdateBookAsync(id, book);
