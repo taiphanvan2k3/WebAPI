@@ -15,6 +15,9 @@ namespace LearnApiWeb.Helper
 
             // Vẫn có thể wrapper từ thuộc tính giữa entity và 1 model có ít thuộc tính hơn
             CreateMap<Book, BookMinModel>().ReverseMap();
+
+            // Tương tự như BookMinModel thì cũng có thể map giữa Book và BookNotId
+            CreateMap<Book, BookNotId>().ReverseMap();
         }
     }
 }

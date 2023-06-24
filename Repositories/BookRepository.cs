@@ -35,7 +35,21 @@ namespace LearnApiWeb.Repositories
             Book newBook = _mapper.Map<Book>(book);
             _context.Books.Add(newBook);
             await _context.SaveChangesAsync();
-            return book.Id;
+            // Do khi SaveChange thì lúc này đối tượng newBook thuộc Entity Book đã được tạo Id tự tăng
+            // và đây là kiểu tham chiếu nên ta có thể lấy ra Id của nó mà không cần truy vấn ra để lấy
+            // Id mới nhất
+            return newBook.Id;
+        }
+
+        public async Task<int> AddBookAsync(BookNotId book)
+        {
+            Book newBook = _mapper.Map<Book>(book);
+            _context.Books.Add(newBook);
+            await _context.SaveChangesAsync();
+            // Do khi SaveChange thì lúc này đối tượng newBook thuộc Entity Book đã được tạo Id tự tăng
+            // và đây là kiểu tham chiếu nên ta có thể lấy ra Id của nó mà không cần truy vấn ra để lấy
+            // Id mới nhất
+            return newBook.Id;
         }
 
         public async Task UpdateBookAsync(int id, BookModel book)
@@ -62,7 +76,7 @@ namespace LearnApiWeb.Repositories
         public async Task<List<BookMinModel>> GetAllBooksMinAsync()
         {
             var books = await _context.Books.ToListAsync();
-            return _mapper.Map<List<BookMinModel>>(books); 
+            return _mapper.Map<List<BookMinModel>>(books);
         }
     }
 }

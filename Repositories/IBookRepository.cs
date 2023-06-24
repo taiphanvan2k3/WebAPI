@@ -12,6 +12,7 @@ namespace LearnApiWeb.Repositories
         public Task<BookModel>GetBookAsync(int id);
         
         public Task<int>AddBookAsync(BookModel book);
+        public Task<int>AddBookAsync(BookNotId book);
 
         public Task UpdateBookAsync(int id, BookModel book);
 

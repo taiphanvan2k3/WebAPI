@@ -58,13 +58,32 @@ namespace Namespace
             try
             {
                 var newBookId = await _bookRepos.AddBookAsync(book);
-                return Ok(book);
+                var newBook = await _bookRepos.GetBookAsync(newBookId);
+                return CreatedAtAction("GetBookById", new { id = newBookId }, newBook);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPost("add-new-book-v2")]
+        public async Task<ActionResult<BookModel>> AddNewBookv2(BookNotId book)
+        {
+            // Do lúc thêm 1 Book mới mà lại hiển thị ra có thể nhập id thì ko đúng lắm
+            // nên tạo ra 1 model Book ko có id
+            try
+            {
+                var newBookId = await _bookRepos.AddBookAsync(book);
+                var newBook = await _bookRepos.GetBookAsync(newBookId);
+                return CreatedAtAction("GetBookById", new { id = newBookId }, newBook);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBookInfo(int id, BookModel book)
@@ -74,7 +93,7 @@ namespace Namespace
             // => Nên không cần điền
             if (id != book.Id)
             {
-                return NotFound();  
+                return NotFound();
             }
 
             await _bookRepos.UpdateBookAsync(id, book);
