@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BookStoreconnectionString");
-// Add services to the container.
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -31,7 +31,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 // Tuy có nhiều class implement 1 interface nhưng khi đăng kí
 // thì chỉ có 1 class implement thôi
 builder.Services.AddTransient<IBookRepository, BookRepository>();
-
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
