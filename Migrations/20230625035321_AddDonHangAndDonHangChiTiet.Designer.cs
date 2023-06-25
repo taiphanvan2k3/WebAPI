@@ -4,6 +4,7 @@ using LearnApiWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnApiWeb.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230625035321_AddDonHangAndDonHangChiTiet")]
+    partial class AddDonHangAndDonHangChiTiet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace LearnApiWeb.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MaCuaHang")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -49,27 +49,7 @@ namespace LearnApiWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaCuaHang");
-
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("LearnApiWeb.Data.BookStore", b =>
-                {
-                    b.Property<int>("MaCuaHang")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaCuaHang"));
-
-                    b.Property<string>("TenCuaHang")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("MaCuaHang");
-
-                    b.ToTable("BookStores");
                 });
 
             modelBuilder.Entity("LearnApiWeb.Data.Category", b =>
@@ -182,16 +162,6 @@ namespace LearnApiWeb.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("LearnApiWeb.Data.Book", b =>
-                {
-                    b.HasOne("LearnApiWeb.Data.BookStore", "BookStore")
-                        .WithMany("Books")
-                        .HasForeignKey("MaCuaHang")
-                        .HasConstraintName("FK_Book_BookStore");
-
-                    b.Navigation("BookStore");
-                });
-
             modelBuilder.Entity("LearnApiWeb.Data.DonHangChiTiet", b =>
                 {
                     b.HasOne("LearnApiWeb.Data.DonHang", "DonHang")
@@ -220,11 +190,6 @@ namespace LearnApiWeb.Migrations
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("LearnApiWeb.Data.BookStore", b =>
-                {
-                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("LearnApiWeb.Data.Category", b =>

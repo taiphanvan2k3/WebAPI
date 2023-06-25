@@ -16,5 +16,9 @@ namespace LearnApiWeb.Data
 
         [Range(0, 100)]
         public int Quantity { get; set; }
+
+        public int? MaCuaHang { get; set; }
+
+        public virtual BookStore? BookStore { get; set; }
     }
 }
