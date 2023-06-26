@@ -1,9 +1,9 @@
 using LearnApiWeb.Models;
 
-namespace LearnApiWeb.Repositoriesspace
+namespace LearnApiWeb.Repositories
 {
     public interface IProductRepository
     {
-        public Task<List<ProductViewModel>> FilterProducts(string pattern);
+        public Task<List<ProductModel>> FilterProducts(string searchName);
     }
 }

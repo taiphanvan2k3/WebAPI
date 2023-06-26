@@ -32,6 +32,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 // thì chỉ có 1 class implement thôi
 builder.Services.AddTransient<IBookRepository, BookRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
