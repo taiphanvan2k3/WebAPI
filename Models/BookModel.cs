@@ -9,7 +9,7 @@ namespace LearnApiWeb.Dtos
         [MaxLength(100, ErrorMessage = "Số lượng vượt quá")]
         public string Title { get; set; } = null!;
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [Range(0, double.MaxValue)]
         public double Price { get; set; }

@@ -15,10 +15,11 @@ namespace LearnApiWeb.Controllers
             _productRepository = productRepository;
         }
 
-        [HttpGet("{name}")]
-        public async Task<ActionResult<List<ProductModel>>> FilterProductByName(string name)
+        [HttpGet]
+        // Không điền tham số vào route vì đây là các giá trị không required
+        public async Task<ActionResult<List<ProductModel>>> FilterProductByName(string name, double? fromPrice, double? toPrice, string sortBy, int page = 1)
         {
-            return Ok(await _productRepository.FilterProducts(name));
+            return Ok(await _productRepository.FilterProducts(name, fromPrice, toPrice, sortBy, page));
         }
     }
 }

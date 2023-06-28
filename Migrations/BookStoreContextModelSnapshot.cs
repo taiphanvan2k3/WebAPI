@@ -51,7 +51,7 @@ namespace LearnApiWeb.Migrations
 
                     b.HasIndex("MaCuaHang");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LearnApiWeb.Data.BookStore", b =>
@@ -69,7 +69,7 @@ namespace LearnApiWeb.Migrations
 
                     b.HasKey("MaCuaHang");
 
-                    b.ToTable("BookStores");
+                    b.ToTable("BookStores", (string)null);
                 });
 
             modelBuilder.Entity("LearnApiWeb.Data.Category", b =>
@@ -87,7 +87,7 @@ namespace LearnApiWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("LearnApiWeb.Data.DonHang", b =>
@@ -148,7 +148,7 @@ namespace LearnApiWeb.Migrations
 
                     b.HasIndex("MaHangHoa");
 
-                    b.ToTable("DonHangChiTiets");
+                    b.ToTable("DonHangChiTiets", (string)null);
                 });
 
             modelBuilder.Entity("LearnApiWeb.Data.Product", b =>
@@ -179,7 +179,7 @@ namespace LearnApiWeb.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("LearnApiWeb.Data.Book", b =>

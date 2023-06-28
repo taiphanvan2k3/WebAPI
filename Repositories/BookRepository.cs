@@ -24,7 +24,7 @@ namespace LearnApiWeb.Repositories
 
         public async Task<BookModel> GetBookAsync(int id)
         {
-            Book? book = await _context.Books.FindAsync(id);
+            Book book = await _context.Books.FindAsync(id);
             return _mapper.Map<BookModel>(book);
         }
 

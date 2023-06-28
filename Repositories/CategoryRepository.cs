@@ -53,7 +53,7 @@ namespace LearnApiWeb.Repositories
             // Category updatedCategory = _mapper.Map<Category>(category);
             // updatedCategory.Id = id;
             // _context.Categories.Update(updatedCategory);
-            Category? updatedCategory = _context.Categories.Find(id);
+            Category updatedCategory = _context.Categories.Find(id);
             if (updatedCategory != null)
             {
                 updatedCategory.Name = category.Name;
@@ -63,7 +63,7 @@ namespace LearnApiWeb.Repositories
 
         public async Task<CategoryModel> DeleteCategory(int id)
         {
-            Category? deletedCategory = await _context.Categories.FindAsync(id);
+            Category deletedCategory = await _context.Categories.FindAsync(id);
             if (deletedCategory != null)
             {
                 _context.Categories.Remove(deletedCategory);

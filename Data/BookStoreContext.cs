@@ -25,19 +25,17 @@ namespace LearnApiWeb.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Product
-            modelBuilder.Entity<Product>()
-                        .Property(p => p.Name)
-                        .HasMaxLength(100);
+            //Book
+            OnModelCreatingBook(modelBuilder);
 
-            modelBuilder.Entity<Product>()
-                        .Property(p => p.Description)
-                        .HasMaxLength(100);
+            // Product
+            OnModelCreatingProduct(modelBuilder);    
 
             // Category
             modelBuilder.Entity<Category>()
                         .Property(c => c.Name)
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .IsRequired();
 
             modelBuilder.Entity<Category>()
                         .HasMany(c => c.Products)
@@ -87,13 +85,37 @@ namespace LearnApiWeb.Data
                 entity.HasKey(b => b.MaCuaHang);
 
                 entity.Property(b => b.TenCuaHang)
-                      .HasMaxLength(50);
-                      
+                      .HasMaxLength(50)
+                      .IsRequired();
+
                 entity.HasMany(b => b.Books)
                       .WithOne(book => book.BookStore)
                       .HasForeignKey(book => book.MaCuaHang)
                       .HasConstraintName("FK_Book_BookStore");
             });
+        }
+
+        private void OnModelCreatingBook(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>(entity =>
+            {
+                entity.Property(b => b.Title)
+                        .HasMaxLength(100)
+                        .IsRequired();
+            });
+        }
+
+        private void OnModelCreatingProduct(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                        .Property(p => p.Name)
+                        .HasMaxLength(100)
+                        .IsRequired();
+
+
+            modelBuilder.Entity<Product>()
+                        .Property(p => p.Description)
+                        .HasMaxLength(100);
         }
     }
 }

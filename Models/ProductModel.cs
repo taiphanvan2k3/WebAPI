@@ -5,6 +5,6 @@ namespace LearnApiWeb.Models
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
         public double Price { get; set; }
-        public string? CategoryName { get; set; }
+        public string CategoryName { get; set; }
     }
 }
