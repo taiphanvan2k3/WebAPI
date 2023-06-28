@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using LearnApiWeb.Data;
 using LearnApiWeb.Models;
 using LearnApiWeb.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearnApiWeb.Controllers
@@ -35,8 +36,12 @@ namespace LearnApiWeb.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> AddNewCategory(CategoryModelMin category)
         {
+            // Do API này có attribute là [Authorize] nên chỉ có đăng nhập
+            // thành công thì mới dùng API này được vì nó yêu cầu 1 token mà token này chỉ được
+            // generate sau khi login thành công
             int newId = await _categoryRepos.AddNewCategory(category);
             if (newId != -1)
             {

@@ -19,6 +19,7 @@ namespace LearnApiWeb.Data
 
         public DbSet<DonHangChiTiet> DonHangChiTiets { get; set; } = null!;
 
+        public DbSet<User> Users { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,7 +30,7 @@ namespace LearnApiWeb.Data
             OnModelCreatingBook(modelBuilder);
 
             // Product
-            OnModelCreatingProduct(modelBuilder);    
+            OnModelCreatingProduct(modelBuilder);
 
             // Category
             modelBuilder.Entity<Category>()
@@ -93,6 +94,8 @@ namespace LearnApiWeb.Data
                       .HasForeignKey(book => book.MaCuaHang)
                       .HasConstraintName("FK_Book_BookStore");
             });
+
+            OnModelCreatingUser(modelBuilder);
         }
 
         private void OnModelCreatingBook(ModelBuilder modelBuilder)
@@ -116,6 +119,33 @@ namespace LearnApiWeb.Data
             modelBuilder.Entity<Product>()
                         .Property(p => p.Description)
                         .HasMaxLength(100);
+        }
+
+        private void OnModelCreatingUser(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(u => u.Id);
+
+                entity.HasIndex(u => u.UserName)
+                      .IsUnique();
+
+                entity.Property(u => u.UserName)
+                      .HasMaxLength(50)
+                      .IsRequired();
+
+                entity.Property(u => u.Password)
+                      .HasMaxLength(250)
+                      .IsRequired();
+
+                entity.Property(u => u.Name)
+                      .HasMaxLength(150)
+                      .IsRequired();
+
+                entity.Property(u => u.Email)
+                      .HasMaxLength(150)
+                      .IsRequired();
+            });
         }
     }
 }
