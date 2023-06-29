@@ -4,5 +4,7 @@ namespace LearnApiWeb.Models
     {
         // Yêu cầu tên thuộc tính phải giống với trong appsettings.json
         public string SecretKey { get; set; }
+
+        public string Test { get; set; }
     }
 }

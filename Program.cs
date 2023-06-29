@@ -70,8 +70,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+// Chú ý là đặt Authentication trước Authorization
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

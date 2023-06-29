@@ -1,12 +1,7 @@
-namespace LearnApiWeb.Data
+namespace LearnApiWeb.Models
 {
-    public class User
+    public class UserModel
     {
-        public User()
-        {
-            RefreshTokens = new List<RefreshToken>();
-        }
-
         public int Id { get; set; }
 
         public string UserName { get; set; }
@@ -16,7 +11,5 @@ namespace LearnApiWeb.Data
         public string Name { get; set; }
 
         public string Email { get; set; }
-
-        public List<RefreshToken> RefreshTokens { get; set; }
     }
 }

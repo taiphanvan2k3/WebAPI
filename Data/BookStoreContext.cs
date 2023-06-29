@@ -20,6 +20,9 @@ namespace LearnApiWeb.Data
         public DbSet<DonHangChiTiet> DonHangChiTiets { get; set; } = null!;
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -96,6 +99,7 @@ namespace LearnApiWeb.Data
             });
 
             OnModelCreatingUser(modelBuilder);
+            OnModelCreatingRefreshToken(modelBuilder);
         }
 
         private void OnModelCreatingBook(ModelBuilder modelBuilder)
@@ -145,6 +149,16 @@ namespace LearnApiWeb.Data
                 entity.Property(u => u.Email)
                       .HasMaxLength(150)
                       .IsRequired();
+            });
+        }
+
+        private void OnModelCreatingRefreshToken(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasOne(r => r.User)
+                      .WithMany(u => u.RefreshTokens)
+                      .HasForeignKey(r => r.UserId);
             });
         }
     }
