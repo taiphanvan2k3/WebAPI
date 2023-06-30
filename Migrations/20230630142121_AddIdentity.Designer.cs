@@ -4,6 +4,7 @@ using LearnApiWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnApiWeb.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230630142121_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,6 +94,166 @@ namespace LearnApiWeb.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MaCuaHang")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaCuaHang");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.BookStore", b =>
+                {
+                    b.Property<int>("MaCuaHang")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaCuaHang"));
+
+                    b.Property<string>("TenCuaHang")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("MaCuaHang");
+
+                    b.ToTable("BookStores");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.DonHang", b =>
+                {
+                    b.Property<Guid>("MaDonHang")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DiaChiGiao")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("NgayDatHang")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<DateTime?>("NgayGiao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SoDienThoai")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("TenNguoiNhan")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("TinhTrangDonHang")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaDonHang");
+
+                    b.ToTable("DonHang", (string)null);
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.DonHangChiTiet", b =>
+                {
+                    b.Property<Guid>("MaDonHang")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MaHangHoa")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("DonGia")
+                        .HasColumnType("float");
+
+                    b.Property<double>("GiamGia")
+                        .HasColumnType("float");
+
+                    b.Property<int>("SoLuongMua")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaDonHang", "MaHangHoa");
+
+                    b.HasIndex("MaHangHoa");
+
+                    b.ToTable("DonHangChiTiets");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Sales")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -226,6 +389,46 @@ namespace LearnApiWeb.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("LearnApiWeb.Data.Book", b =>
+                {
+                    b.HasOne("LearnApiWeb.Data.BookStore", "BookStore")
+                        .WithMany("Books")
+                        .HasForeignKey("MaCuaHang")
+                        .HasConstraintName("FK_Book_BookStore");
+
+                    b.Navigation("BookStore");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.DonHangChiTiet", b =>
+                {
+                    b.HasOne("LearnApiWeb.Data.DonHang", "DonHang")
+                        .WithMany("DonHangChiTiets")
+                        .HasForeignKey("MaDonHang")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_DonHangCT_DonHang");
+
+                    b.HasOne("LearnApiWeb.Data.Product", "Product")
+                        .WithMany("DonHangChiTiets")
+                        .HasForeignKey("MaHangHoa")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_DonHangCT_SanPham");
+
+                    b.Navigation("DonHang");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.Product", b =>
+                {
+                    b.HasOne("LearnApiWeb.Data.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -275,6 +478,26 @@ namespace LearnApiWeb.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.BookStore", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.DonHang", b =>
+                {
+                    b.Navigation("DonHangChiTiets");
+                });
+
+            modelBuilder.Entity("LearnApiWeb.Data.Product", b =>
+                {
+                    b.Navigation("DonHangChiTiets");
                 });
 #pragma warning restore 612, 618
         }
